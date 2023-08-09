@@ -1,0 +1,84 @@
+version: "3.7"
+
+services:
+  app1:
+    image: onnx:latest
+    ports:
+      - 5000:5000
+    volumes:
+      - /.opt/public/:/.opt/public/
+      - /.opt/weights/:/.opt/weights/
+      - /.opt/license/:/.opt/license/
+      - /.opt/files/:/.opt/files/
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev/video0:/dev/video0
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - ~/.Xauthority:/root/.Xauthority
+    restart: always
+    privileged: true
+    network_mode: "host"
+    # networks:
+    #   - wide_network
+    #   - internal_network
+    entrypoint: ["python3", "webcam_object_detection.py"]
+
+   
+
+# networks:
+#   internal_network:
+#     name: fd_internal_net
+#     internal: true
+#   wide_network:
+#     name: fd_wide_net
+#     driver: bridge
+
+  # app2:
+  #   image: anpr-carwash-v1.0.0
+  #   ports:
+  #     - 8001:8000
+  #   volumes:
+  #     - /usr/public/:/usr/public/
+  #     - /usr/weights/:/usr/weights/
+  #     - /usr/licence/:/usr/licence/
+  #     - /usr/files/:/usr/files/
+  #   environment:
+  #     - NVIDIA_VISIBLE_DEVICES=0
+  #     - NVIDIA_DRIVER_CAPABILITIES=compute
+  #   restart: always
+  #   entrypoint: ["bash","/usr/files/sh/entrypoint2.sh"]
+
+  # app3:
+  #   image: carwash-v1.0.1
+  #   ports:
+  #     - 5002:5000
+  #   volumes:
+  #     - /usr/public/:/usr/public/
+  #     - /usr/weights/:/usr/weights/
+  #     - /usr/licence/:/usr/licence/
+  #     - /usr/files/:/usr/files/
+  #   environment:
+  #     - NVIDIA_VISIBLE_DEVICES=0
+  #     - NVIDIA_DRIVER_CAPABILITIES=compute
+  #   restart: always
+  #   entrypoint: ["bash","/usr/files/sh/entrypoint3.sh"]
+
+  # app4:
+  #   image: carwash-v1.0.0
+  #   ports:
+  #     - 5003:5000
+  #   volumes:
+  #     - /usr/public/:/usr/public/
+  #     - /usr/weights/:/usr/weights/
+  #     - /usr/licence/:/usr/licence/
+  #     - /usr/files/:/usr/files/
+  #   environment:
+  #     - NVIDIA_VISIBLE_DEVICES=0
+  #     - NVIDIA_DRIVER_CAPABILITIES=compute
+  #   restart: always
+  #   entrypoint: ["bash","/usr/files/sh/entrypoint3.sh"]
+
+
